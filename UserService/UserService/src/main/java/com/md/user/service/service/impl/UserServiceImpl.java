@@ -31,10 +31,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String userId) {
+        logger.info("in the getUserMethod");
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User with given id is not present" + userId));
-
+        logger.info(user.toString());
         Rating[] ratingListForUser = restTemplate.getForObject("http://RATING-SERVICE/ratings/users/" + userId, Rating[].class);
-        logger.info("{} ", ratingListForUser);
+        logger.info("list of ratings: {} ", ratingListForUser);
 
         List<Rating> ratings = Arrays.stream(ratingListForUser).toList();
 
